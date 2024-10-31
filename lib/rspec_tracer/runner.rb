@@ -245,6 +245,11 @@ module RSpecTracer
 
       source_file = RSpecTracer::SourceFile.from_name(file_name)
 
+      # some Gems provide functions that create their own examples
+      # e.g. rswag's 'run_test!' internally defines examples
+      # in these cases, no source file will be found
+      return if source_file.nil?
+
       @reporter.register_source_file(source_file)
       @reporter.register_dependency(example_id, file_name)
     end
